@@ -4,6 +4,8 @@ var User = require('./models/user');
 const mongoose = require('mongoose');
 var session = require('express-session');
 const blog = require('./router/blog');
+const follow = require('./router/follow');
+const feed = require('./router/feed');
 // bycrypt , connect-mongo and express-session
 mongoose.connect('mongodb://localhost/blog');
 
@@ -16,6 +18,8 @@ app.use(session({
 }));
 
 app.use('/blogpost',blog);
+app.use('/follow',follow);
+app.use('/feed',feed);
 //Body Parser
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
@@ -61,7 +65,7 @@ app.get('/cool',(req,res)=>{
 
 app.route('/login')
     .get((req,res,next)=>{
-      res.send('Login template here');
+      res.sendFile('html/login.html',{ root: __dirname });
     })
     .post((req,res,next)=>{
       if(req.body.username && req.body.password){

@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 var session = require('express-session');
 var Blog = require('../models/blogSchema');
+const bodyParser = require('body-parser');
+
+router.use(bodyParser.urlencoded({extended:true}));
+router.use(bodyParser.json());
 
 router.route('/')
     .get((req,res,next)=>{
@@ -12,12 +16,13 @@ router.route('/')
         var blogData = {
           title : req.body.title,
           content : req.body.content,
+          userId : req.session.userId,
         }
         Blog.create(blogData,function(err,blog){
           if(err){
             return next(err)
           }else{
-            res.send('Done');
+            res.send(blog);
           }
         });
       }

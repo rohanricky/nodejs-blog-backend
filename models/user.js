@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+
+
 var Schema = mongoose.Schema;
 
 // create a schema
@@ -15,7 +17,8 @@ var userSchema = new Schema({
     website: String
   },
   created_at: Date,
-  updated_at: Date
+  updated_at: Date,
+  following : [],
 });
 
 userSchema.statics.authenticate = function (username, password, callback) {
@@ -38,6 +41,20 @@ userSchema.statics.authenticate = function (username, password, callback) {
     });
 }
 
+userSchema.statics.getUserId = function(username, callback) {
+  User.findOne({username:username})
+  .exec(function (err, user) {
+    if (err) {
+      return callback(err)
+    } else if (!user) {
+      var err = new Error('User not found.');
+      err.status = 401;
+      return callback(err);
+    } else {
+      return callback(null, user);
+    }
+  });
+}
 userSchema.pre('save', function(next){
   var user = this;
   bcrypt.hash(user.password, 10, function (err, hash){

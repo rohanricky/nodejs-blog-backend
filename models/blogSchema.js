@@ -6,6 +6,7 @@ var blogSchema = new Schema({
   name: String,
   title: { type: String, required: true },
   content: { type: String, required: true },
+  userId : {type: String, required:true},
   location: String,
   meta: {
     website: String,
