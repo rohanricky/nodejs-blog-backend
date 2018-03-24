@@ -24,7 +24,7 @@ app.use('/feed',loggedIn,feed);
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-app.get('/',(req,res)=>{
+app.get('/',(req,res,next)=>{
     res.send("Hello Anonymous");
 });
 

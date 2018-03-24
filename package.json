@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A Node.js backed Blog App using Express",
   "engines": {
-    "node": "9.9.0"
+    "node": "^8.10.0"
   },
   "main": "server.js",
   "scripts": {
