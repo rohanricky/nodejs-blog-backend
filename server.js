@@ -17,13 +17,21 @@ app.use(session({
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-app.get('/',(req,res)=>{
+app.get('/',isLoggedIn,(req,res)=>{
   res.send("HEllo!");
 });
 
+function isLoggedIn(req, res, next){
+    // if user is authenticated in the session, carry on
+    if (!req.isAuthenticated || !req.isAuthenticated())
+        return next();
+    // if they aren't redirect them to the home page
+    res.redirect('/');
+}
+
 app.route('/register')
     .get((req,res,next)=>{
-        res.send('Register template here');
+        res.sendFile('html/register.html',{ root: __dirname });
       })
     .post((req,res,next)=>{
       if(req.body.name && req.body.username && req.body.password){
