@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 var User = require('./models/user');
 const mongoose = require('mongoose');
 var session = require('express-session');
+const blog = require('./router/blog');
 // bycrypt , connect-mongo and express-session
 mongoose.connect('mongodb://localhost/blog');
 
@@ -11,22 +12,24 @@ const app=express();
 app.use(session({
   secret: 'Infinity War',
   resave: true,
-  saveUninitialized: false
+  saveUninitialized: false,
 }));
+
+app.use('/blogpost',blog);
 //Body Parser
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-app.get('/',isLoggedIn,(req,res)=>{
-  res.send("HEllo!");
+app.get('/',(req,res)=>{
+  res.send(req.session.userId);
 });
 
-function isLoggedIn(req, res, next){
-    // if user is authenticated in the session, carry on
-    if (!req.isAuthenticated || !req.isAuthenticated())
-        return next();
-    // if they aren't redirect them to the home page
-    res.redirect('/');
+function loggedIn(req, res, next) {
+    if (req.session.userId) {
+        next();
+    } else {
+        res.redirect('/register');
+    }
 }
 
 app.route('/register')
@@ -51,6 +54,10 @@ app.route('/register')
         });
       }
       });
+
+app.get('/cool',(req,res)=>{
+    res.send(req.session.userId);
+});
 
 app.route('/login')
     .get((req,res,next)=>{
