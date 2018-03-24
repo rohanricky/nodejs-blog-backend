@@ -1,8 +1,6 @@
 var mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-
-
 var Schema = mongoose.Schema;
 
 // create a schema
@@ -12,9 +10,9 @@ var userSchema = new Schema({
   password: { type: String, required: true },
   admin: Boolean,
   location: String,
+  websiteUrl: String,
   meta: {
     age: Number,
-    website: String
   },
   created_at: Date,
   updated_at: Date,

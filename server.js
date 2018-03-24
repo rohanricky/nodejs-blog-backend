@@ -17,15 +17,15 @@ app.use(session({
   saveUninitialized: false,
 }));
 
-app.use('/blogpost',blog);
-app.use('/follow',follow);
-app.use('/feed',feed);
+app.use('/blogpost',loggedIn,blog);
+app.use('/follow',loggedIn,follow);
+app.use('/feed',loggedIn,feed);
 //Body Parser
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 app.get('/',(req,res)=>{
-  res.send(req.session.userId);
+    res.send("Hello Anonymous");
 });
 
 function loggedIn(req, res, next) {
@@ -46,6 +46,7 @@ app.route('/register')
           name: req.body.name,
           username: req.body.username,
           password: req.body.password,
+          websiteUrl : req.body.website,
         }
 
         User.create(userData, function (err, user) {
