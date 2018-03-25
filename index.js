@@ -7,7 +7,7 @@ const blog = require('./router/blog');
 const follow = require('./router/follow');
 const feed = require('./router/feed');
 // bycrypt , connect-mongo and express-session
-mongoose.connect('mongodb://localhost/blog');
+mongoose.connect('mongodb://avengers:infinitywar@ds223609.mlab.com:23609/blog');
 
 const app=express();
 
